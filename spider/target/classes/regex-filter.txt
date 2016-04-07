@@ -1,0 +1,2 @@
+http://news.sohu.com/.*shtml$
+http://news.sohu.com/
