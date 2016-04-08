@@ -317,7 +317,11 @@
 	</select>
 	
 	<select id="selectUrl" parameterType="String" resultType="String"> 
-		select baseUrl from webpage where baseUrl = #{url};
+		select baseUrl from webpage where baseUrl = #{url}
+	</select>
+	
+	<select id="selectAllNotNull" resultType="String">
+		SELECT id, baseUrl, text FROM webpage WHERE text is not null ORDER BY id ASC
 	</select>
 
 </mapper>

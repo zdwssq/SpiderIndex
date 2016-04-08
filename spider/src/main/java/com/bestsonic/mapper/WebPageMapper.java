@@ -43,4 +43,6 @@ public interface WebPageMapper {
 	public List<String> selectExistUrls(List<String> urls);
 	
 	public List<String> selectUrl(@Param("url")String url);
+	
+	public List<WebPage> selectAllNotNull();
 }
