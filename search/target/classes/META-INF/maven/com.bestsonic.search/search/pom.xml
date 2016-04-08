@@ -13,14 +13,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
-	<!-- 增加新的maven源 -->   
-    <repositories>
-        <repository>
-            <id>mvn-repo</id>
-            <url>http://maven.nlpcn.org/</url>
-        </repository>
-    </repositories>
+
+	<!-- 增加新的maven源 -->
+	<repositories>
+		<repository>
+			<id>mvn-repo</id>
+			<url>http://maven.nlpcn.org/</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<!-- junit -->
@@ -30,21 +30,28 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-		  <groupId>com.bestsonic.spider</groupId>
-		  <artifactId>spider</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
+			<groupId>com.bestsonic.spider</groupId>
+			<artifactId>spider</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>org.ansj</groupId>
-            <artifactId>ansj_seg</artifactId>
-            <version>3.7.1</version>
-        </dependency>
+			<groupId>org.ansj</groupId>
+			<artifactId>ansj_seg</artifactId>
+			<version>0.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.6</version>
+		</dependency>
+
 	</dependencies>
-	
-	
+
+
 
 	<build>
 		<plugins>

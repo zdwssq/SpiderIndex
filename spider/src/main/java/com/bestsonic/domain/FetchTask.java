@@ -32,12 +32,11 @@ public class FetchTask implements Runnable {
 
 	@Override
 	public void run() {
-		synchronized(FetchTask.class){
 		SqlSession session = null;
 		try {
 			session = DBUtils.getSession();
 			WebPageMapper mapper = session.getMapper(WebPageMapper.class);
-			LOG.debug("Fetch过程 - 线程池执行爬取方法!");
+			LOG.debug(Thread.currentThread() + "Fetch过程 - 线程池执行爬取方法!");
 			// 获取爬取时间
 			long fetchTime = System.currentTimeMillis();
 
@@ -77,18 +76,23 @@ public class FetchTask implements Runnable {
 			// 获取outlinks
 			String[] ourls = Parse.getOutLinks(root);
 			Set<String> urls = Filter.filter(ourls);
-			urls.removeAll(Fetch.allUrls);
-			Fetch.allUrls.addAll(urls);
-			//urls.remove(webpage.getBaseUrl());
+			/*urls.removeAll(Fetch.allUrls);
+			Fetch.allUrls.addAll(urls);*/
+			// urls.remove(webpage.getBaseUrl());
 			// 为每个outlinks(已存在则增加inlinks)创建webpage对象(baseUrl和parentUrl,
 			// inlinks)，并存入数据库，获得id，如果outlinks在数据库中已存在，则更新inlinks。
 			StringBuilder outlinks = new StringBuilder();
 			for (String baseUrl : urls) {
+				String webpage_url = mapper.selectUrl(baseUrl);
+				if(webpage_url != null)
+					continue;
+				
 				WebPage page = new WebPage();
 				page.setBaseUrl(baseUrl);
 				page.setParentUrl(webpage.getBaseUrl());
 				LOG.debug("Fetch阶段 - 插入新增页面!");
 				LOG.debug(page.getBaseUrl());
+				
 				mapper.insert(page);
 				outlinks.append(page.getId() + ",");
 			}
@@ -99,17 +103,17 @@ public class FetchTask implements Runnable {
 
 			// 将webpage结果存入数据库
 			mapper.update(webpage);
-			System.out.println(latch.getCount());
+			System.out.println("before:" + latch.getCount());
 			session.commit();
-			latch.countDown();
+//			latch.countDown();
+			System.out.println("after:" + latch.getCount());
 		} catch (UnsupportedOperationException | IOException e) {
 			e.printStackTrace();
 			if (session != null)
 				session.rollback();
 		} finally {
+			latch.countDown();
 			StreamUtils.close(session);
-			
-		}
 		}
 	}
 

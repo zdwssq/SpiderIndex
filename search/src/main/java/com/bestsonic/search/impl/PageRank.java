@@ -3,6 +3,7 @@ package com.bestsonic.search.impl;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.log4j.Logger;
 
 import com.bestsonic.domain.WebPage;

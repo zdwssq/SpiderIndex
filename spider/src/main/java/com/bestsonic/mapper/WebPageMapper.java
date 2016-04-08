@@ -41,4 +41,6 @@ public interface WebPageMapper {
 	public List<Integer> selectForGenerate(@Param("time") long batchId);
 	
 	public List<String> selectExistUrls(List<String> urls);
+	
+	public String selectUrl(@Param("url")String url);
 }

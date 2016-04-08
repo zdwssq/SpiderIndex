@@ -9,7 +9,7 @@ import org.apache.http.impl.client.HttpClients;
 
 public class ThreadPool {
 
-	public final static ExecutorService EXECUTOR = Executors.newFixedThreadPool(50);
+	public final static ExecutorService EXECUTOR = Executors.newFixedThreadPool(10);
 	
 	//private final static CloseableHttpClient client = //HttpClients.custom().setConnectionManager(new PoolingHttpClientConnectionManager()).build();
 	

@@ -10,6 +10,12 @@ import com.bestsonic.spider.Job;
 import com.bestsonic.spider.utils.DBUtils;
 import com.bestsonic.spider.utils.StreamUtils;
 
+/**
+ * 从配置文件中读出爬取开始的位置
+ * 
+ * @author zheng
+ * @date 2016年4月8日
+ */
 public class Generate implements Job {
 	private final static Logger LOG = Logger.getLogger(Generate.class);
 
@@ -34,7 +40,7 @@ public class Generate implements Job {
 
 			List<Integer> ids = mapper.selectForGenerate((batchId - 1000 * 60 * 60 * 24));
 			LOG.debug("Generate过程 - 查询出需要爬取的记录Id：" + ids);
-			if(!ids.isEmpty()){
+			if (!ids.isEmpty()) {
 				mapper.updateBatchId(batchId, ids);
 				LOG.debug("Generate过程 - 增加batchId：" + batchId);
 			}
