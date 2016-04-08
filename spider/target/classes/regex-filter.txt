@@ -1,2 +1,0 @@
-http://news.163.com/.*html$
-http://news.163.com/
