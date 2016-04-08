@@ -10,6 +10,5 @@ public class Main {
 		Executor.execute(Split.class);
 		//执行PageRank计算
 		
-		
 	}
 }
