@@ -31,7 +31,10 @@ public class Parse{
 	
 	public static String getTitle(Document root){
 		Elements titles = root.getElementsByTag("title");
-		return titles.first().text();
+		if(titles.size() > 0){
+			return titles.first().text();
+		}
+		return "";
 	}
 	
 	public static String getContent(InputStream in, String charset){

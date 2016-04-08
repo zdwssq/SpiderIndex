@@ -49,7 +49,7 @@ public class Fetch implements Job {
 			}
 			latch.await();
 			System.out.println("主线程继续执行.....");
-			// session.commit();
+			//session.commit();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			if (session != null)

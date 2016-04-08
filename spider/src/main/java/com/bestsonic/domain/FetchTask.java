@@ -1,6 +1,5 @@
 package com.bestsonic.domain;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -83,9 +82,9 @@ public class FetchTask implements Runnable {
 			// inlinks)，并存入数据库，获得id，如果outlinks在数据库中已存在，则更新inlinks。
 			StringBuilder outlinks = new StringBuilder();
 			for (String baseUrl : urls) {
-				String webpage_url = mapper.selectUrl(baseUrl);
-				if(webpage_url != null)
+				if(mapper.selectUrl(baseUrl).size() > 0){
 					continue;
+				}
 				
 				WebPage page = new WebPage();
 				page.setBaseUrl(baseUrl);
@@ -97,17 +96,17 @@ public class FetchTask implements Runnable {
 				outlinks.append(page.getId() + ",");
 			}
 			// 主键返回outlinks
-			webpage.setOutlinks(outlinks.toString().substring(0, outlinks.length() - 1));
+			if(outlinks.length() > 0){
+				webpage.setOutlinks(outlinks.toString().substring(0, outlinks.length() - 1));
+			}
+			
 			// 设置爬取时间
 			webpage.setFetchTime(fetchTime);
 
 			// 将webpage结果存入数据库
 			mapper.update(webpage);
-			System.out.println("before:" + latch.getCount());
 			session.commit();
-//			latch.countDown();
-			System.out.println("after:" + latch.getCount());
-		} catch (UnsupportedOperationException | IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			if (session != null)
 				session.rollback();
