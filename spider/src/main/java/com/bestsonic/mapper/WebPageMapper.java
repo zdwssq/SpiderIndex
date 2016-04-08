@@ -45,4 +45,6 @@ public interface WebPageMapper {
 	public List<String> selectUrl(@Param("url")String url);
 	
 	public List<WebPage> selectAllNotNull();
+
+	public List<WebPage> selectLinks();
 }

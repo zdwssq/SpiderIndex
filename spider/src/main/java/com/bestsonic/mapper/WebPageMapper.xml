@@ -320,8 +320,12 @@
 		select baseUrl from webpage where baseUrl = #{url}
 	</select>
 	
-	<select id="selectAllNotNull" resultType="String">
+	<select id="selectAllNotNull" resultMap="BaseResultMap">
 		SELECT id, baseUrl, text FROM webpage WHERE text is not null ORDER BY id ASC
+	</select>
+	
+	<select id="selectLinks" resultMap="BaseResultMap">
+		SELECT id, inlinks, outlinks FROM webpage WHERE text is not null ORDER BY id ASC
 	</select>
 
 </mapper>
