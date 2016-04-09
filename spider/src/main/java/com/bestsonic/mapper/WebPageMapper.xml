@@ -321,11 +321,11 @@
 	</select>
 	
 	<select id="selectAllNotNull" resultType="com.bestsonic.domain.WebPage">
-		SELECT id, baseUrl, text FROM webpage WHERE text is not null ORDER BY id ASC
+		SELECT id, baseUrl, text FROM webpage WHERE text is not null AND OUTLINKS IS NOT NULL ORDER BY id ASC
 	</select>
 	
 	<select id="selectLinks" resultType="com.bestsonic.domain.WebPage">
-		SELECT id, inlinks, outlinks FROM webpage WHERE text is not null ORDER BY id ASC
+		SELECT id, inlinks, outlinks FROM webpage WHERE text is not null AND OUTLINKS IS NOT NULL ORDER BY id ASC
 	</select>
 
 </mapper>
