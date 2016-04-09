@@ -1,32 +1,42 @@
 package com.bestsonic.domain;
 
-public class WebPage {
+public class WebPage implements Comparable<Double> {
 
 	private Integer id;
-	
+
 	private String headers;
-	
+
 	private String text;
-	
+
 	private Integer status;
-	
+
 	private Long batchId;
-	
+
 	private Double score;
-	
+
 	private String baseUrl;
-	
+
 	private String content;
-	
+
 	private String title;
-	
+
 	private String parentUrl;
-	
+
 	private String inlinks;
-	
+
 	private String outlinks;
-	
+
 	private Long fetchTime;
+
+	private Double rank;
+
+	public Double getRank() {
+		return rank;
+	}
+
+	public void setRank(Double rank) {
+		this.rank = rank;
+	}
 
 	public Integer getId() {
 		return id;
@@ -160,5 +170,10 @@ public class WebPage {
 
 	public WebPage() {
 		super();
+	}
+
+	@Override
+	public int compareTo(Double o) {
+		return this.rank.compareTo(o);
 	}
 }
