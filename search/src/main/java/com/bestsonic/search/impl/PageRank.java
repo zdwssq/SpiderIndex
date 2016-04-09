@@ -11,6 +11,7 @@ import com.bestsonic.domain.WebPage;
 import com.bestsonic.mapper.WebPageMapper;
 import com.bestsonic.spider.Job;
 import com.bestsonic.spider.utils.DBUtils;
+import com.bestsonic.spider.utils.StreamUtils;
 
 public class PageRank implements Job {
 	private final static Job job = new PageRank();
@@ -20,10 +21,10 @@ public class PageRank implements Job {
 
 	/* 阻尼系数 */
 	public static double alpha = 0.85;
-	
-	public static HashMap<Integer, Double> init;
 
-	public static HashMap<Integer, Double> pr;
+	public static HashMap<Integer, Double> init = new HashMap<Integer, Double>();
+
+	public static HashMap<Integer, Double> pr = new HashMap<Integer, Double>();
 
 	private PageRank() {
 	}
@@ -44,11 +45,11 @@ public class PageRank implements Job {
 		for (Integer key : init.keySet()) {
 			double temp = 0;
 			for (Integer num : init.keySet()) {
+				List<String> ols = outLinks.get(num);
 				// 计算对本页面链接相关总值
-				List<String> ils = outLinks.get(num + "");
-				if (key != num && ils.size() != 0 && ils.contains(
+				if (key != num && ols.size() != 0 && ols.contains(
 						key + "")/* he0.getInLinks().contains(he.getPath()) */) {
-					temp = temp + init.get(num) / ils.size();
+					temp = temp + init.get(num) / ols.size();
 				}
 			}
 			// 经典的pr公式
@@ -78,31 +79,45 @@ public class PageRank implements Job {
 
 	@Override
 	public void run() {
-		SqlSession session = DBUtils.getSession();
-		WebPageMapper mapper = session.getMapper(WebPageMapper.class);
-		List<WebPage> list = mapper.selectLinks();
-		HashMap<Integer, List<String>> outLinks = new HashMap<>();
-		for(WebPage page : list){
-			outLinks.put(page.getId(), Arrays.asList(page.getOutlinks().split(",")));
-		}
-		// 1.拿到所有的outlinks
+		SqlSession session = null;
+		try {
+			session = DBUtils.getSession();
+			WebPageMapper mapper = session.getMapper(WebPageMapper.class);
+			List<WebPage> list = mapper.selectLinks();
+			LOG.debug("计算PageRank!");
+			LOG.debug("查询结果：" + list);
+			// 1.拿到所有的outlinks
+			HashMap<Integer, List<String>> outLinks = new HashMap<>();
+			for (WebPage page : list) {
+				outLinks.put(page.getId(), Arrays.asList(page.getOutlinks().split(",")));
+			}
 
-		// 2.初始化init[i] = 0.0;
-		for(Integer key : outLinks.keySet()){
-			init.put(key, 0.0);
-		}
-		// 3.计算pageRank
-		pr = doPageRank(outLinks);
-		while (!(checkMax())) {
-			init = new HashMap<>(pr);
+			// 2.初始化init[i] = 0.0;
+			for (Integer key : outLinks.keySet()) {
+				init.put(key, 0.0);
+			}
+			// 3.计算pageRank
 			pr = doPageRank(outLinks);
-		}
-		// 4.存入pageRank，下标为id，值为rank
-		for(Integer key : pr.keySet()) {
-			WebPage page = new WebPage();
-			page.setId(key);
-			page.setScore(pr.get(key));
-			mapper.update(page);
+			LOG.debug("计算pr："+pr.toString());
+			while (!(checkMax())) {
+				init = new HashMap<>(pr);
+				pr = doPageRank(outLinks);
+				LOG.debug("计算pr："+pr.toString());
+			}
+			// 4.存入pageRank，下标为id，值为rank
+			for (Integer key : pr.keySet()) {
+				WebPage page = new WebPage();
+				page.setId(key);
+				page.setScore(pr.get(key));
+				mapper.update(page);
+			}
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (session != null)
+				session.rollback();
+		} finally {
+			StreamUtils.close(session);
 		}
 	}
 }

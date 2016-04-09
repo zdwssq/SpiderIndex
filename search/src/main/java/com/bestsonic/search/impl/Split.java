@@ -18,6 +18,7 @@ import com.bestsonic.mapper.WebPageMapper;
 import com.bestsonic.search.utils.BitSetUtils;
 import com.bestsonic.spider.Job;
 import com.bestsonic.spider.utils.DBUtils;
+import com.bestsonic.spider.utils.StreamUtils;
 
 public class Split implements Job {
 
@@ -61,13 +62,13 @@ public class Split implements Job {
 							set = BitSetUtils.toBitSet(relationship, list.size());
 						}
 						set.set(i);
-						keyword.setRelationship(set.toString());
+						keyword.setRelationship(BitSetUtils.toString(set));
 					} else {
 						keyword = new Keyword();
 						keyword.setKeyword(term.getName());
 						set = new BitSet(list.size());
 						set.set(i);
-						keyword.setRelationship(set.toString());
+						keyword.setRelationship(BitSetUtils.toString(set));
 						keywords.put(term.getName(), keyword);
 					}
 				}
@@ -82,10 +83,18 @@ public class Split implements Job {
 			LOG.debug("将分词插入数据库中!");
 			
 			// 写入数据库中
-			keywordMapper.insertByList(keywordList);
+			
+			for(Keyword keyword : keywordList){
+				keywordMapper.insert(keyword);
+			}
+			//keywordMapper.insertByList(keywordList);
 			session.commit();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
+			if (session != null)
+				session.rollback();
+		} finally {
+			StreamUtils.close(session);
 		}
 	}
 

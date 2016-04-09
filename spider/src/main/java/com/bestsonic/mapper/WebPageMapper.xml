@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bestsonic.mapper.WebPageMapper">
+	<resultMap id="BaseResultMap" type="com.bestsonic.domain.WebPage">
+		<constructor>
+			<idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="headers" jdbcType="CLOB" javaType="java.lang.String" />
+			<arg column="text" jdbcType="CLOB" javaType="java.lang.String" />
+			<arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+			<arg column="batchId" jdbcType="VARCHAR" javaType="java.lang.Long" />
+			<arg column="score" jdbcType="FLOAT" javaType="java.lang.Double" />
+			<arg column="baseUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="content" jdbcType="CLOB" javaType="java.lang.String" />
+			<arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="parentUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+			<arg column="inlinks" jdbcType="CLOB" javaType="java.lang.String" />
+			<arg column="outlinks" jdbcType="CLOB" javaType="java.lang.String" />
+			<arg column="fetchTime" jdbcType="BIGINT" javaType="java.lang.Long" />
+		</constructor>
+	</resultMap>
+
+	<sql id="columns">
+		id, headers, text, status, batchId, score, baseUrl, content,
+		title, parentUrl, inlinks, outlinks, fetchTime
+	</sql>
+
+	<insert id="insert" parameterType="com.bestsonic.domain.WebPage">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO WEBPAGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="headers != null">
+				headers,
+			</if>
+			<if test="text != null">
+                text,
+            </if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="batchId != null">
+				batchId,
+			</if>
+			<if test="score != null">
+				score,
+			</if>
+			<if test="baseUrl != null">
+				baseUrl,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="parentUrl != null">
+				parentUrl,
+			</if>
+			<if test="inlinks != null">
+				inlinks,
+			</if>
+			<if test="outlinks != null">
+				outlinks,
+			</if>
+			<if test="fetchTime != null">
+				fetchTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="headers != null">
+				#{headers,jdbcType=CLOB},
+			</if>
+			<if test="text != null">
+                #{text,jdbcType=CLOB},
+            </if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="batchId != null">
+				#{batchId,jdbcType=VARCHAR},
+			</if>
+			<if test="score != null">
+				#{score,jdbcType=FLOAT},
+			</if>
+			<if test="baseUrl != null">
+				#{baseUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=CLOB},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="parentUrl != null">
+				#{parentUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="inlinks != null">
+				#{inlinks,jdbcType=CLOB},
+			</if>
+			<if test="outlinks != null">
+				#{outlinks,jdbcType=CLOB},
+			</if>
+			<if test="fetchTime != null">
+				#{fetchTime,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertByList" parameterType="java.util.List">
+		INSERT INTO WEBPAGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			headers, text, status, batchId, score, baseUrl, content, title, parentUrl, inlinks, outlinks, fetchTime
+		</trim>
+		VALUES
+		<foreach collection="list" index="index" item="item"
+			separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				#{item.headers,jdbcType=CLOB},
+				#{item.text,jdbcType=CLOB},
+				#{item.status,jdbcType=INTEGER},
+				#{item.batchId,jdbcType=VARCHAR},
+				#{item.score,jdbcType=FLOAT},
+				#{item.baseUrl,jdbcType=VARCHAR},
+				#{item.content,jdbcType=CLOB},
+				#{item.title,jdbcType=VARCHAR},
+				#{item.parentUrl,jdbcType=VARCHAR},
+				#{item.inlinks,jdbcType=CLOB},
+				#{item.outlinks,jdbcType=CLOB},
+				#{item.fetchTime,jdbcType=BIGINT},
+			</trim>
+		</foreach>
+	</insert>
+
+	<update id="update" parameterType="com.bestsonic.domain.WebPage">
+		UPDATE WEBPAGE
+		<set>
+			<if test="headers != null">
+				headers = #{headers,jdbcType=CLOB},
+			</if>
+			<if test="text != null">
+                text = #{text,jdbcType=CLOB},
+            </if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="batchId != null">
+				batchId = #{batchId,jdbcType=VARCHAR},
+			</if>
+			<if test="score != null">
+				score = #{score,jdbcType=FLOAT},
+			</if>
+			<if test="baseUrl != null">
+				baseUrl = #{baseUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=CLOB},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="parentUrl != null">
+				parentUrl = #{parentUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="inlinks != null">
+				inlinks = #{inlinks,jdbcType=CLOB},
+			</if>
+			<if test="outlinks != null">
+				outlinks = #{outlinks,jdbcType=CLOB},
+			</if>
+			<if test="fetchTime != null">
+				fetchTime = #{fetchTime,jdbcType=BIGINT},
+			</if>
+		</set>
+		WHERE ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateBatchId" parameterType="map">
+		UPDATE WEBPAGE SET batchId = #{batchId} WHERE id IN
+		<foreach collection="list" index="index" item="item" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateByList" parameterType="java.util.List">
+		<foreach collection="list" index="index" item="item" open="begin"
+			close="end;" separator="">
+			UPDATE WEBPAGE
+			<set>
+				<if test="headers != null">
+					headers = #{headers,jdbcType=CLOB},
+				</if>
+				<if test="status != null">
+					status = #{status,jdbcType=INTEGER},
+				</if>
+				<if test="text != null">
+                    text = #{text,jdbcType=CLOB},
+                </if>
+				<if test="batchId != null">
+					batchId = #{batchId,jdbcType=VARCHAR},
+				</if>
+				<if test="score != null">
+					score = #{score,jdbcType=FLOAT},
+				</if>
+				<if test="baseUrl != null">
+					baseUrl = #{baseUrl,jdbcType=VARCHAR},
+				</if>
+				<if test="content != null">
+					content = #{content,jdbcType=CLOB},
+				</if>
+				<if test="title != null">
+					title = #{title,jdbcType=VARCHAR},
+				</if>
+				<if test="parentUrl != null">
+					parentUrl = #{parentUrl,jdbcType=VARCHAR},
+				</if>
+				<if test="inlinks != null">
+					inlinks = #{inlinks,jdbcType=CLOB},
+				</if>
+				<if test="outlinks != null">
+					outlinks = #{outlinks,jdbcType=CLOB},
+				</if>
+				<if test="fetchTime != null">
+					fetchTime = #{fetchTime,jdbcType=BIGINT},
+				</if>
+			</set>
+			WHERE ID = #{id,jdbcType=INTEGER};
+		</foreach>
+	</update>
+
+	<delete id="delete" parameterType="com.bestsonic.domain.WebPage">
+		DELETE FROM WEBPAGE WHERE ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM WEBPAGE WHERE ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<delete id="deleteByList" parameterType="java.util.List">
+		DELETE FROM WEBPAGE WHERE ID IN
+		<foreach collection="list" index="index" item="item" open="("
+			close=")" separator=",">
+			#{item.id,jdbcType=INTEGER}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		DELETE FROM WEBPAGE WHERE ID IN
+		<foreach collection="list" index="index" item="item" open="("
+			close=")" separator=",">
+			#{item,jdbcType=INTEGER}
+		</foreach>
+	</delete>
+
+	<select id="select" parameterType="int" resultMap="BaseResultMap">
+		SELECT
+		<include refid="columns" />
+		FROM WEBPAGE WHERE ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByIds" parameterType="java.util.List"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="columns" />
+		FROM WEBPAGE WHERE ID IN
+		<foreach collection="list" index="index" item="item" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+		ORDER BY ID DESC
+	</select>
+
+	<select id="selectExistUrls" parameterType="java.util.List"
+		resultType="java.lang.String">
+		SELECT
+		baseUrl
+		FROM WEBPAGE WHERE baseUrl IN
+		<foreach collection="list" index="index" item="item" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+		ORDER BY ID DESC
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT
+		<include refid="columns" />
+		FROM WEBPAGE ORDER BY ID DESC
+	</select>
+	
+	<select id="selectAllUrls" resultType="java.lang.String">
+        SELECT baseUrl FROM WEBPAGE ORDER BY ID DESC
+    </select>
+
+	<select id="selectPage" resultMap="BaseResultMap">
+		SELECT
+		<include refid="columns" />
+		FROM WEBPAGE ORDER BY ID DESC LIMIT ${start},${length}
+	</select>
+
+	<select id="selectForFetch" resultMap="BaseResultMap">
+		SELECT
+		<include refid="columns" />
+		FROM WEBPAGE WHERE fetchTime IS NULL AND batchId IS NOT NULL ORDER BY ID DESC
+	</select>
+
+	<select id="selectForGenerate" resultType="int">
+		SELECT id FROM WEBPAGE
+		WHERE batchId is null or (fetchTime IS NULL and batchId >= ${time})
+	</select>
+	
+	<select id="selectUrl" parameterType="String" resultType="String"> 
+		select baseUrl from webpage where baseUrl = #{url}
+	</select>
+	
+	<select id="selectAllNotNull" resultType="com.bestsonic.domain.WebPage">
+		SELECT id, baseUrl, text FROM webpage WHERE text is not null AND OUTLINKS IS NOT NULL ORDER BY id ASC
+	</select>
+	
+	<select id="selectLinks" resultType="com.bestsonic.domain.WebPage">
+		SELECT id, inlinks, outlinks FROM webpage WHERE text is not null AND OUTLINKS IS NOT NULL ORDER BY id ASC
+	</select>
+
+</mapper>
