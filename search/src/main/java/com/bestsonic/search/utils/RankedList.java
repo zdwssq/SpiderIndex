@@ -1,13 +1,10 @@
 package com.bestsonic.search.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Test;
 
 import com.bestsonic.domain.WebPage;
 import com.bestsonic.mapper.KeywordMapper;
@@ -15,16 +12,15 @@ import com.bestsonic.mapper.WebPageMapper;
 import com.bestsonic.spider.utils.DBUtils;
 
 /**
- * <p>
- * Description:
- * </p>
- * 
- * @author zheng
- * @time 2016年4月9日 下午1:24:30
+ * 查询接口类，为view工程服务
+ * @author Best_
  */
-
 public class RankedList {
-
+	/**
+	 * 根据入参关键词，从数据库查询符合条件的WebPage对象List，并返回。
+	 * @param keywords 关键词数组
+	 * @return
+	 */
 	public static List<WebPage> rankedList(String[] keywords) {
 		SqlSession session = DBUtils.getSession();
 		KeywordMapper keywordmapper = session.getMapper(KeywordMapper.class);
@@ -52,8 +48,7 @@ public class RankedList {
 			}
 		}
 
-		if (ids.isEmpty())
-			return new ArrayList<>();
+		if (ids.isEmpty()) return new ArrayList<>();
 
 		rankedList = webpageMapper.selectByIds(ids);
 		for (WebPage webpage : rankedList) {
@@ -66,9 +61,7 @@ public class RankedList {
 			webpage.setRank(rank);
 		}
 
-		if (rankedList != null) {
-			Collections.sort(rankedList);
-		}
+		if (rankedList != null) Collections.sort(rankedList);
 
 		return rankedList;
 	}
@@ -94,19 +87,11 @@ public class RankedList {
 			res.append(c - 48);
 		}
 
-		if (i < str1.length())
-			res.append(str1.substring(i));
+		if (i < str1.length()) res.append(str1.substring(i));
 
-		if (i < str2.length())
-			res.append(str2.substring(i));
+		if (i < str2.length()) res.append(str2.substring(i));
 
 		return res.toString();
 	}
 
-	@Test
-	public void test() {
-
-		List<WebPage> webPages = rankedList(new String[] { "宁波", "强心剂", "欣慰","马云" });
-		System.err.println(webPages.get(0).getTitle() + "dhuhdu");
-	}
 }
