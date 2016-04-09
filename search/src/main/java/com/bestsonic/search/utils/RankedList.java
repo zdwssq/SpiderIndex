@@ -1,6 +1,9 @@
 package com.bestsonic.search.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -34,7 +37,8 @@ public class RankedList {
 			for (String str : relations) {
 				bytes = or(bytes, str);
 			}
-			if(res == null) res = bytes;
+			if (res == null)
+				res = bytes;
 			res = and(res, bytes);
 		}
 
@@ -50,8 +54,22 @@ public class RankedList {
 
 		if (ids.isEmpty())
 			return new ArrayList<>();
-		
+
 		rankedList = webpageMapper.selectByIds(ids);
+		for (WebPage webpage : rankedList) {
+			int before_length = webpage.getText().length();
+			for (String key : keywords)
+				webpage.setText(webpage.getText().replaceAll(key, ""));
+			
+			double ratue = 1 - (webpage.getText().length() / before_length);
+			double rank = webpage.getScore() * ratue;
+			webpage.setRank(rank);
+		}
+
+		if (rankedList != null) {
+			Collections.sort(rankedList);
+		}
+
 		return rankedList;
 	}
 
@@ -88,7 +106,7 @@ public class RankedList {
 	@Test
 	public void test() {
 
-		List<WebPage> webPages = rankedList(new String[] { "宁波", "网" });
-		System.err.println(webPages.get(0) + "dhuhdu");
+		List<WebPage> webPages = rankedList(new String[] { "宁波" });
+		System.err.println(webPages.get(0).getTitle() + "dhuhdu");
 	}
 }

@@ -279,7 +279,7 @@
 			close=")" separator=",">
 			#{item}
 		</foreach>
-		ORDER BY ID DESC
+		ORDER BY ID ASC
 	</select>
 
 	<select id="selectExistUrls" parameterType="java.util.List"
@@ -291,31 +291,31 @@
 			close=")" separator=",">
 			#{item}
 		</foreach>
-		ORDER BY ID DESC
+		ORDER BY ID ASC
 	</select>
 
 	<select id="selectAll" resultMap="BaseResultMap">
 		SELECT
 		<include refid="columns" />
-		FROM WEBPAGE ORDER BY ID DESC
+		FROM WEBPAGE ORDER BY ID ASC
 	</select>
 
 	<select id="selectAllUrls" resultType="java.lang.String">
 		SELECT baseUrl FROM
-		WEBPAGE ORDER BY ID DESC
+		WEBPAGE ORDER BY ID ASC
 	</select>
 
 	<select id="selectPage" resultMap="BaseResultMap">
 		SELECT
 		<include refid="columns" />
-		FROM WEBPAGE ORDER BY ID DESC LIMIT ${start},${length}
+		FROM WEBPAGE ORDER BY ID ASC LIMIT ${start},${length}
 	</select>
 
 	<select id="selectForFetch" resultMap="BaseResultMap">
 		SELECT
 		<include refid="columns" />
 		FROM WEBPAGE WHERE fetchTime IS NULL AND batchId IS NOT NULL ORDER BY
-		ID DESC
+		ID ASC
 	</select>
 
 	<select id="selectForGenerate" resultType="int">
@@ -342,7 +342,7 @@
 
 	<select id="selectId" parameterType="int" resultType="int">
 		SELECT ID
-		FROM WEBPAGE LIMIT #{start}, 1
+		FROM WEBPAGE ORDER BY ID ASC LIMIT #{start}, 1
 	</select>
 
 </mapper>

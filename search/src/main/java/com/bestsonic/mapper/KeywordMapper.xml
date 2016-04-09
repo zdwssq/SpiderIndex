@@ -128,19 +128,19 @@
 			close=")" separator=",">
 			#{item}
 		</foreach>
-		ORDER BY ID DESC
+		ORDER BY ID ASC
 	</select>
 
 	<select id="selectAll" resultMap="BaseResultMap">
 		SELECT
 		<include refid="columns" />
-		FROM KEYWORD ORDER BY ID DESC
+		FROM KEYWORD ORDER BY ID ASC
 	</select>
 
 	<select id="selectPage" resultMap="BaseResultMap">
 		SELECT
 		<include refid="columns" />
-		FROM KEYWORD ORDER BY ID DESC LIMIT ${start},${length}
+		FROM KEYWORD ORDER BY ID ASC LIMIT ${start},${length}
 	</select>
 
 	<select id="getKeywords" parameterType="String" resultType="String">

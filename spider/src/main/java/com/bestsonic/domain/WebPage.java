@@ -1,6 +1,6 @@
 package com.bestsonic.domain;
 
-public class WebPage implements Comparable<Double> {
+public class WebPage implements Comparable<WebPage>{
 
 	private Integer id;
 
@@ -173,7 +173,8 @@ public class WebPage implements Comparable<Double> {
 	}
 
 	@Override
-	public int compareTo(Double o) {
-		return this.rank.compareTo(o);
+	public int compareTo(WebPage o) {
+		return this.rank.compareTo(o.getRank());
 	}
+
 }
