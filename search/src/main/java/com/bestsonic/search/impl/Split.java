@@ -83,7 +83,7 @@ public class Split implements Job {
 			
 			// 写入数据库中
 			keywordMapper.insertByList(keywordList);
-
+			session.commit();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
