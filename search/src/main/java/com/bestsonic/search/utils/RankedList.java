@@ -106,7 +106,7 @@ public class RankedList {
 	@Test
 	public void test() {
 
-		List<WebPage> webPages = rankedList(new String[] { "宁波" });
+		List<WebPage> webPages = rankedList(new String[] { "宁波", "强心剂", "欣慰","马云" });
 		System.err.println(webPages.get(0).getTitle() + "dhuhdu");
 	}
 }

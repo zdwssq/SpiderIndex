@@ -1,6 +1,7 @@
 package com.bestsonic.domain;
 
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
@@ -75,31 +76,36 @@ public class FetchTask implements Runnable {
 			// 获取outlinks
 			String[] ourls = Parse.getOutLinks(root);
 			Set<String> urls = Filter.filter(ourls);
-			/*urls.removeAll(Fetch.allUrls);
-			Fetch.allUrls.addAll(urls);*/
+			/*
+			 * urls.removeAll(Fetch.allUrls); Fetch.allUrls.addAll(urls);
+			 */
 			// urls.remove(webpage.getBaseUrl());
 			// 为每个outlinks(已存在则增加inlinks)创建webpage对象(baseUrl和parentUrl,
 			// inlinks)，并存入数据库，获得id，如果outlinks在数据库中已存在，则更新inlinks。
 			StringBuilder outlinks = new StringBuilder();
 			for (String baseUrl : urls) {
-				if(mapper.selectUrl(baseUrl).size() > 0){
+				Integer id = mapper.selectUrl(baseUrl);
+				if (id != null) {
+					outlinks.append(id + ",");
 					continue;
 				}
-				
+
 				WebPage page = new WebPage();
 				page.setBaseUrl(baseUrl);
 				page.setParentUrl(webpage.getBaseUrl());
 				LOG.debug("Fetch阶段 - 插入新增页面!");
 				LOG.debug(page.getBaseUrl());
-				
+
 				mapper.insert(page);
 				outlinks.append(page.getId() + ",");
 			}
 			// 主键返回outlinks
-			if(outlinks.length() > 0){
+			if (outlinks.length() > 0) {
 				webpage.setOutlinks(outlinks.toString().substring(0, outlinks.length() - 1));
+			} else {
+				webpage.setOutlinks("");
 			}
-			
+
 			// 设置爬取时间
 			webpage.setFetchTime(fetchTime);
 

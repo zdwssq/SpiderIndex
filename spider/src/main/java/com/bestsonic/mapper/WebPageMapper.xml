@@ -30,7 +30,7 @@
 			SELECT
 			LAST_INSERT_ID()
 		</selectKey>
-		INSERT INTO WEBPAGE
+		INSERT IGNORE INTO WEBPAGE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
@@ -323,9 +323,9 @@
 		WHERE batchId is null or (fetchTime IS NULL and batchId >= ${time})
 	</select>
 
-	<select id="selectUrl" parameterType="String" resultType="String">
+	<select id="selectUrl" parameterType="String" resultType="int">
 		select
-		baseUrl from webpage where baseUrl = #{url}
+		ID from webpage where baseUrl = #{url}
 	</select>
 
 	<select id="selectAllNotNull" resultType="com.bestsonic.domain.WebPage">

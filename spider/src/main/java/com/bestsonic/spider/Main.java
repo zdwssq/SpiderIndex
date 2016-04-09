@@ -1,4 +1,9 @@
-package com.bestsonic.spider.impl;
+package com.bestsonic.spider;
+
+import com.bestsonic.spider.impl.Executor;
+import com.bestsonic.spider.impl.Fetch;
+import com.bestsonic.spider.impl.Generate;
+import com.bestsonic.spider.impl.Inject;
 
 /**
  * 爬虫入口程序
