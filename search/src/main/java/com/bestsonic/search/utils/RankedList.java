@@ -1,14 +1,13 @@
 package com.bestsonic.search.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
+import com.bestsonic.domain.Page;
 import com.bestsonic.domain.WebPage;
 import com.bestsonic.mapper.KeywordMapper;
 import com.bestsonic.mapper.WebPageMapper;
@@ -25,7 +24,7 @@ import com.bestsonic.spider.utils.DBUtils;
 
 public class RankedList {
 
-	public static List<WebPage> rankedList(String[] keywords) {
+	public static Page<WebPage> rankedList(String[] keywords, int currentNum, int pageSize) {
 		SqlSession session = DBUtils.getSession();
 		KeywordMapper keywordmapper = session.getMapper(KeywordMapper.class);
 		WebPageMapper webpageMapper = session.getMapper(WebPageMapper.class);
@@ -33,13 +32,15 @@ public class RankedList {
 		String res = null;
 		for (int i = 0; i < keywords.length; i++) {
 			List<String> relations = keywordmapper.getKeywords("%" + keywords[i] + "%");
-			String bytes = relations.get(0);
-			for (String str : relations) {
-				bytes = or(bytes, str);
+			if (!relations.isEmpty()) {
+				String bytes = relations.get(0);
+				for (String str : relations) {
+					bytes = or(bytes, str);
+				}
+				if (res == null)
+					res = bytes;
+				res = and(res, bytes);
 			}
-			if (res == null)
-				res = bytes;
-			res = and(res, bytes);
 		}
 
 		// 查找数据库
@@ -53,14 +54,14 @@ public class RankedList {
 		}
 
 		if (ids.isEmpty())
-			return new ArrayList<>();
+			return new Page<WebPage>();
 
 		rankedList = webpageMapper.selectByIds(ids);
 		for (WebPage webpage : rankedList) {
 			int before_length = webpage.getText().length();
 			for (String key : keywords)
 				webpage.setText(webpage.getText().replaceAll(key, ""));
-			
+
 			double ratue = 1 - (webpage.getText().length() / before_length);
 			double rank = webpage.getScore() * ratue;
 			webpage.setRank(rank);
@@ -69,8 +70,14 @@ public class RankedList {
 		if (rankedList != null) {
 			Collections.sort(rankedList);
 		}
+		
+		Page<WebPage> page = new Page<WebPage>();
+		page.setPageNo(currentNum);
+		page.setLength(pageSize);
+		page.setTotalRecords(rankedList.size());
+		page.setPageDatas(rankedList.subList(currentNum * pageSize, currentNum * pageSize + pageSize));
 
-		return rankedList;
+		return page;
 	}
 
 	private static String and(String str1, String str2) {
@@ -103,10 +110,4 @@ public class RankedList {
 		return res.toString();
 	}
 
-	@Test
-	public void test() {
-
-		List<WebPage> webPages = rankedList(new String[] { "宁波", "强心剂", "欣慰","马云" });
-		System.err.println(webPages.get(0).getTitle() + "dhuhdu");
-	}
 }
