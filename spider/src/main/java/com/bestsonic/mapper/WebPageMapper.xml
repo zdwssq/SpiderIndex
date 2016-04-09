@@ -20,7 +20,8 @@
 	</resultMap>
 
 	<sql id="columns">
-		id, headers, text, status, batchId, score, baseUrl, content,
+		id, headers, text, status, batchId, score, baseUrl,
+		content,
 		title, parentUrl, inlinks, outlinks, fetchTime
 	</sql>
 
@@ -38,8 +39,8 @@
 				headers,
 			</if>
 			<if test="text != null">
-                text,
-            </if>
+				text,
+			</if>
 			<if test="status != null">
 				status,
 			</if>
@@ -79,8 +80,8 @@
 				#{headers,jdbcType=CLOB},
 			</if>
 			<if test="text != null">
-                #{text,jdbcType=CLOB},
-            </if>
+				#{text,jdbcType=CLOB},
+			</if>
 			<if test="status != null">
 				#{status,jdbcType=INTEGER},
 			</if>
@@ -117,7 +118,9 @@
 	<insert id="insertByList" parameterType="java.util.List">
 		INSERT INTO WEBPAGE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			headers, text, status, batchId, score, baseUrl, content, title, parentUrl, inlinks, outlinks, fetchTime
+			headers, text,
+			status, batchId, score, baseUrl, content, title, parentUrl, inlinks,
+			outlinks, fetchTime
 		</trim>
 		VALUES
 		<foreach collection="list" index="index" item="item"
@@ -146,8 +149,8 @@
 				headers = #{headers,jdbcType=CLOB},
 			</if>
 			<if test="text != null">
-                text = #{text,jdbcType=CLOB},
-            </if>
+				text = #{text,jdbcType=CLOB},
+			</if>
 			<if test="status != null">
 				status = #{status,jdbcType=INTEGER},
 			</if>
@@ -201,8 +204,8 @@
 					status = #{status,jdbcType=INTEGER},
 				</if>
 				<if test="text != null">
-                    text = #{text,jdbcType=CLOB},
-                </if>
+					text = #{text,jdbcType=CLOB},
+				</if>
 				<if test="batchId != null">
 					batchId = #{batchId,jdbcType=VARCHAR},
 				</if>
@@ -236,11 +239,13 @@
 	</update>
 
 	<delete id="delete" parameterType="com.bestsonic.domain.WebPage">
-		DELETE FROM WEBPAGE WHERE ID = #{id,jdbcType=INTEGER}
+		DELETE FROM WEBPAGE WHERE ID =
+		#{id,jdbcType=INTEGER}
 	</delete>
 
 	<delete id="deleteById" parameterType="int">
-		DELETE FROM WEBPAGE WHERE ID = #{id,jdbcType=INTEGER}
+		DELETE FROM WEBPAGE WHERE
+		ID = #{id,jdbcType=INTEGER}
 	</delete>
 
 	<delete id="deleteByList" parameterType="java.util.List">
@@ -294,10 +299,11 @@
 		<include refid="columns" />
 		FROM WEBPAGE ORDER BY ID DESC
 	</select>
-	
+
 	<select id="selectAllUrls" resultType="java.lang.String">
-        SELECT baseUrl FROM WEBPAGE ORDER BY ID DESC
-    </select>
+		SELECT baseUrl FROM
+		WEBPAGE ORDER BY ID DESC
+	</select>
 
 	<select id="selectPage" resultMap="BaseResultMap">
 		SELECT
@@ -308,24 +314,35 @@
 	<select id="selectForFetch" resultMap="BaseResultMap">
 		SELECT
 		<include refid="columns" />
-		FROM WEBPAGE WHERE fetchTime IS NULL AND batchId IS NOT NULL ORDER BY ID DESC
+		FROM WEBPAGE WHERE fetchTime IS NULL AND batchId IS NOT NULL ORDER BY
+		ID DESC
 	</select>
 
 	<select id="selectForGenerate" resultType="int">
 		SELECT id FROM WEBPAGE
 		WHERE batchId is null or (fetchTime IS NULL and batchId >= ${time})
 	</select>
-	
-	<select id="selectUrl" parameterType="String" resultType="String"> 
-		select baseUrl from webpage where baseUrl = #{url}
+
+	<select id="selectUrl" parameterType="String" resultType="String">
+		select
+		baseUrl from webpage where baseUrl = #{url}
 	</select>
-	
+
 	<select id="selectAllNotNull" resultType="com.bestsonic.domain.WebPage">
-		SELECT id, baseUrl, text FROM webpage WHERE text is not null AND OUTLINKS IS NOT NULL ORDER BY id ASC
+		SELECT id, baseUrl,
+		text FROM webpage WHERE text is not null AND OUTLINKS IS NOT NULL
+		ORDER BY id ASC
 	</select>
-	
+
 	<select id="selectLinks" resultType="com.bestsonic.domain.WebPage">
-		SELECT id, inlinks, outlinks FROM webpage WHERE text is not null AND OUTLINKS IS NOT NULL ORDER BY id ASC
+		SELECT id, inlinks, outlinks
+		FROM webpage WHERE text is not null AND OUTLINKS IS NOT NULL ORDER BY
+		id ASC
+	</select>
+
+	<select id="selectId" parameterType="int" resultType="int">
+		SELECT ID
+		FROM WEBPAGE LIMIT #{start}, 1
 	</select>
 
 </mapper>

@@ -27,8 +27,8 @@
 				keyword,
 			</if>
 			<if test="relationship != null">
-                relationship,
-            </if>
+				relationship,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -38,8 +38,8 @@
 				#{keyword,jdbcType=VARCHAR},
 			</if>
 			<if test="relationship != null">
-                #{relationship,jdbcType=VARCHAR},
-            </if>
+				#{relationship,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 
@@ -65,8 +65,8 @@
 				keyword = #{keyword,jdbcType=VARCHAR},
 			</if>
 			<if test="text != null">
-                relationship = #{relationship,jdbcType=VARCHAR},
-            </if>
+				relationship = #{relationship,jdbcType=VARCHAR},
+			</if>
 		</set>
 		WHERE ID = #{id,jdbcType=INTEGER}
 	</update>
@@ -77,22 +77,24 @@
 			UPDATE KEYWORD
 			<set>
 				<if test="headers != null">
-				keyword = #{keyword,jdbcType=VARCHAR},
-			</if>
-			<if test="text != null">
-                relationship = #{relationship,jdbcType=VARCHAR},
-            </if>
+					keyword = #{keyword,jdbcType=VARCHAR},
+				</if>
+				<if test="text != null">
+					relationship = #{relationship,jdbcType=VARCHAR},
+				</if>
 			</set>
 			WHERE ID = #{id,jdbcType=INTEGER};
 		</foreach>
 	</update>
 
 	<delete id="delete" parameterType="com.bestsonic.domain.Keyword">
-		DELETE FROM KEYWORD WHERE ID = #{id,jdbcType=INTEGER}
+		DELETE FROM KEYWORD WHERE ID =
+		#{id,jdbcType=INTEGER}
 	</delete>
 
 	<delete id="deleteById" parameterType="int">
-		DELETE FROM KEYWORD WHERE ID = #{id,jdbcType=INTEGER}
+		DELETE FROM KEYWORD WHERE
+		ID = #{id,jdbcType=INTEGER}
 	</delete>
 
 	<delete id="deleteByList" parameterType="java.util.List">
@@ -134,11 +136,15 @@
 		<include refid="columns" />
 		FROM KEYWORD ORDER BY ID DESC
 	</select>
-	
+
 	<select id="selectPage" resultMap="BaseResultMap">
 		SELECT
 		<include refid="columns" />
 		FROM KEYWORD ORDER BY ID DESC LIMIT ${start},${length}
 	</select>
 
+	<select id="getKeywords" parameterType="String" resultType="String">
+		SELECT RELATIONSHIP FROM KEYWORD WHERE KEYWORD LIKE #{keyword}
+	</select>
+	
 </mapper>
