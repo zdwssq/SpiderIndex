@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Test;
 
 import com.bestsonic.domain.Page;
 import com.bestsonic.domain.WebPage;
@@ -42,6 +41,9 @@ public class RankedList {
 				res = and(res, bytes);
 			}
 		}
+		
+		if(res == null)
+			return new Page<WebPage>();
 
 		// 查找数据库
 		List<Integer> ids = new ArrayList<Integer>();
@@ -109,5 +111,4 @@ public class RankedList {
 
 		return res.toString();
 	}
-
 }
