@@ -81,13 +81,13 @@ public class Split implements Job {
 			// 降序排列
 			Collections.sort(keywordList);
 			LOG.debug("将分词插入数据库中!");
-			
+
 			// 写入数据库中
-			
-			for(Keyword keyword : keywordList){
+
+			for (Keyword keyword : keywordList) {
 				keywordMapper.insert(keyword);
 			}
-			//keywordMapper.insertByList(keywordList);
+			// keywordMapper.insertByList(keywordList);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

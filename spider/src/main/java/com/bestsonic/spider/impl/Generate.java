@@ -12,9 +12,7 @@ import com.bestsonic.spider.utils.StreamUtils;
 
 /**
  * 从配置文件中读出爬取开始的位置
- * 
- * @author zheng
- * @date 2016年4月8日
+ * @author Best_
  */
 public class Generate implements Job {
 	private final static Logger LOG = Logger.getLogger(Generate.class);
@@ -47,8 +45,7 @@ public class Generate implements Job {
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (session != null)
-				session.rollback();
+			if (session != null) session.rollback();
 		} finally {
 			StreamUtils.close(session);
 		}

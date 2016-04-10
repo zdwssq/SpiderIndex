@@ -7,7 +7,10 @@ import java.beans.MethodDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
 import com.bestsonic.spider.Job;
-
+/**
+ * 自定义执行框架，使用内省API
+ * @author Best_
+ */
 public class Executor {
 	
 	public static <T extends Job> void execute(Class<T> clazz){

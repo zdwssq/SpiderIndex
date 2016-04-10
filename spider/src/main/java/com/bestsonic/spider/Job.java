@@ -7,8 +7,4 @@ package com.bestsonic.spider;
 public interface Job {
 
 	void run();
-	
-	default void run(String[] urls){
-		
-	};
 }

@@ -15,7 +15,10 @@ import com.bestsonic.spider.Job;
 import com.bestsonic.spider.utils.DBUtils;
 import com.bestsonic.spider.utils.FileUtils;
 import com.bestsonic.spider.utils.StreamUtils;
-
+/**
+ * 从配置文件injectURL.txt中获取起点Url, 注入数据库中
+ * @author Best_
+ */
 public class Inject implements Job {
 
 	private final static Job job = new Inject();
@@ -53,14 +56,12 @@ public class Inject implements Job {
 				page.setBaseUrl(iter.next());
 				pages.add(page);
 			}
-			
 			mapper.insertByList(pages);
 			LOG.debug("Inject过程 - 插入数据库!");
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (session != null)
-				session.rollback();
+			if (session != null) session.rollback();
 		} finally {
 			StreamUtils.close(session);
 		}

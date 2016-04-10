@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.bestsonic.domain.Page;
 import com.bestsonic.domain.WebPage;
 import com.bestsonic.mapper.KeywordMapper;
 import com.bestsonic.mapper.WebPageMapper;
@@ -16,12 +17,13 @@ import com.bestsonic.spider.utils.DBUtils;
  * @author Best_
  */
 public class RankedList {
+	
 	/**
 	 * 根据入参关键词，从数据库查询符合条件的WebPage对象List，并返回。
 	 * @param keywords 关键词数组
-	 * @return
+	 * @return 分页对象
 	 */
-	public static List<WebPage> rankedList(String[] keywords) {
+	public static Page<WebPage> rankedList(String[] keywords, int currentNum, int pageSize) {
 		SqlSession session = DBUtils.getSession();
 		KeywordMapper keywordmapper = session.getMapper(KeywordMapper.class);
 		WebPageMapper webpageMapper = session.getMapper(WebPageMapper.class);
@@ -29,15 +31,14 @@ public class RankedList {
 		String res = null;
 		for (int i = 0; i < keywords.length; i++) {
 			List<String> relations = keywordmapper.getKeywords("%" + keywords[i] + "%");
-			String bytes = relations.get(0);
-			for (String str : relations) {
-				bytes = or(bytes, str);
+			if (!relations.isEmpty()) {
+				String bytes = relations.get(0);
+				for (String str : relations) bytes = or(bytes, str);
+				if (res == null) res = bytes;
+				res = and(res, bytes);
 			}
-			if (res == null)
-				res = bytes;
-			res = and(res, bytes);
 		}
-
+		if(res == null) return new Page<WebPage>();
 		// 查找数据库
 		List<Integer> ids = new ArrayList<Integer>();
 		byte[] bs = res.getBytes();
@@ -48,7 +49,7 @@ public class RankedList {
 			}
 		}
 
-		if (ids.isEmpty()) return new ArrayList<>();
+		if (ids.isEmpty()) return new Page<WebPage>();
 
 		rankedList = webpageMapper.selectByIds(ids);
 		for (WebPage webpage : rankedList) {
@@ -63,9 +64,21 @@ public class RankedList {
 
 		if (rankedList != null) Collections.sort(rankedList);
 
-		return rankedList;
-	}
+		Page<WebPage> page = new Page<WebPage>();
+		page.setPageNo(currentNum);
+		page.setLength(pageSize);
+		page.setTotalRecords(rankedList.size());
+		page.setPageDatas(rankedList.subList(currentNum * pageSize, Math.min(currentNum * pageSize + pageSize, rankedList.size())));
 
+		return page;
+	}
+	
+	/**
+	 * 两字符串与操作，左对齐操作
+	 * @param str1
+	 * @param str2
+	 * @return 新字符串
+	 */
 	private static String and(String str1, String str2) {
 		StringBuilder res = new StringBuilder();
 		int min = Math.min(str1.length(), str2.length());
@@ -77,7 +90,13 @@ public class RankedList {
 
 		return res.toString();
 	}
-
+	
+	/**
+	 * 两字符串或操作，左对齐操作
+	 * @param str1
+	 * @param str2
+	 * @return 新字符串
+	 */
 	private static String or(String str1, String str2) {
 		StringBuilder res = new StringBuilder();
 		int min = Math.min(str1.length(), str2.length());

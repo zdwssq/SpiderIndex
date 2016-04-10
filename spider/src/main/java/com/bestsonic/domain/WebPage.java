@@ -1,6 +1,14 @@
 package com.bestsonic.domain;
 
-public class WebPage implements Comparable<WebPage>{
+import java.io.Serializable;
+
+/**
+ * 网页内容对应的JavaBean
+ * @author Best_
+ */
+public class WebPage implements Comparable<WebPage>, Serializable{
+
+	private static final long serialVersionUID = -890509332984669202L;
 
 	private Integer id;
 

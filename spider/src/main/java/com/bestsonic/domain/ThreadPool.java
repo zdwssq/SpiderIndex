@@ -6,12 +6,13 @@ import java.util.concurrent.Future;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-
+/**
+ * 线程池静态类
+ * @author Best_
+ */
 public class ThreadPool {
 
 	public final static ExecutorService EXECUTOR = Executors.newCachedThreadPool();
-	
-	//private final static CloseableHttpClient client = //HttpClients.custom().setConnectionManager(new PoolingHttpClientConnectionManager()).build();
 	
 	private ThreadPool(){}
 	
@@ -21,20 +22,5 @@ public class ThreadPool {
 	
 	public static CloseableHttpClient getClient(){
 		return HttpClients.createDefault();
-	}
-	
-	public static void joinPool(){
-		int i = 0;
-		while(true){
-			try {
-				Thread.sleep(1000);
-				System.out.println(++i + "dddddd");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if(EXECUTOR.isTerminated()){
-				break;
-			}
-		}
 	}
 }

@@ -16,9 +16,7 @@ import com.bestsonic.spider.utils.StreamUtils;
 
 /**
  * 从数据库中查询出需要Fetch的记录, 生成FetchTask, 交给线程池来执行
- * 
- * @author zheng
- * @date 2016年4月8日
+ * @author Best_
  */
 public class Fetch implements Job {
 	private final static Logger LOG = Logger.getLogger(Fetch.class);
@@ -40,20 +38,17 @@ public class Fetch implements Job {
 			WebPageMapper mapper = session.getMapper(WebPageMapper.class);
 			// 从数据库中查询出需要Fetch的记录, 生成FetchTask, 交给线程池来执行
 			List<WebPage> list = mapper.selectForFetch();
-			session.commit();
 			CountDownLatch latch = new CountDownLatch(list.size());
-			System.err.println(latch.getCount());
+			System.err.println("生成任务数" + latch.getCount());
 			for(WebPage webpage : list) {
 				LOG.debug("Fetch过程 - 提交任务：" + webpage);
 				ThreadPool.submitJob(new FetchTask(webpage, latch));
 			}
 			latch.await();
 			System.out.println("主线程继续执行.....");
-			//session.commit();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			if (session != null)
-				session.rollback();
+			if (session != null) session.rollback();
 		} finally {
 			StreamUtils.close(session);
 		}
