@@ -6,8 +6,7 @@ import com.bestsonic.spider.impl.Generate;
 import com.bestsonic.spider.impl.Inject;
 
 /**
- * 爬虫入口程序
- * 
+ * 爬虫入口程序，count参数控制爬取层数，默认为3层，爬取网易新闻时大概200+数据。
  * @author Best_
  */
 public class Main {

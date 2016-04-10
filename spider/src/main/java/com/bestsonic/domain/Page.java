@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 分页对象.
- * 
- * @author <a href="mailto:DL88250@gmail.com">Liang Ding</a>
- * @version 1.0.1.0, Oct 6, 2012
+ * 分页对象
+ * @author Best_
+ * @param <T>
  */
 public final class Page<T> implements Serializable {
 

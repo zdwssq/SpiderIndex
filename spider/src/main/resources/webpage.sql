@@ -8,14 +8,14 @@ CREATE TABLE IF NOT EXISTS `webpage` (
 `status` int(11) DEFAULT NULL,
 `batchId` varchar(32) CHARACTER SET latin1 DEFAULT NULL,
 `score` float DEFAULT NULL,
-`baseUrl` varchar(767) DEFAULT NULL,
+`baseUrl` varchar(255) DEFAULT NULL,
 `content` longtext,
 `title` varchar(767) DEFAULT NULL,
-`parentUrl` varchar(767) DEFAULT NULL,
+`parentUrl` varchar(255) DEFAULT NULL,
 `inlinks` mediumblob,
 `outlinks` mediumblob,
 `fetchTime` bigint(20) DEFAULT NULL,
-PRIMARY KEY (`id`)
+PRIMARY KEY (`id`),
+UNIQUE KEY (`baseUrl`)
 ) ENGINE=InnoDB
-ROW_FORMAT=COMPRESSED
-DEFAULT CHARSET=utf8mb4;
+DEFAULT CHARSET=utf8;
