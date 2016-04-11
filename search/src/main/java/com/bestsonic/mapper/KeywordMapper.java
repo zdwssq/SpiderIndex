@@ -6,6 +6,10 @@ import org.apache.ibatis.annotations.Param;
 
 import com.bestsonic.domain.Keyword;
 
+/**
+ * 
+ * @author zheng
+ */
 public interface KeywordMapper {
 
 	public void insert(Keyword Keyword);

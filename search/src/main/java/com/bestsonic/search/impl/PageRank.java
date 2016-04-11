@@ -13,6 +13,10 @@ import com.bestsonic.spider.Job;
 import com.bestsonic.spider.utils.DBUtils;
 import com.bestsonic.spider.utils.StreamUtils;
 
+/**
+ * 
+ * @author zheng
+ */
 public class PageRank implements Job {
 	private final static Job job = new PageRank();
 	private final static Logger LOG = Logger.getLogger(PageRank.class);
@@ -98,11 +102,11 @@ public class PageRank implements Job {
 			}
 			// 3.计算pageRank
 			pr = doPageRank(outLinks);
-			LOG.debug("计算pr："+pr.toString());
+			LOG.debug("计算pr：" + pr.toString());
 			while (!(checkMax())) {
 				init = new HashMap<>(pr);
 				pr = doPageRank(outLinks);
-				LOG.debug("计算pr："+pr.toString());
+				LOG.debug("计算pr：" + pr.toString());
 			}
 			// 4.存入pageRank，下标为id，值为rank
 			for (Integer key : pr.keySet()) {

@@ -1,11 +1,15 @@
 package com.bestsonic.domain;
 
+/**
+ * 
+ * @author zheng
+ */
 public class Keyword implements Comparable<Keyword> {
 
 	private int id;
-	
+
 	private String keyword;
-	
+
 	private String relationship;
 
 	public int getId() {
@@ -36,11 +40,12 @@ public class Keyword implements Comparable<Keyword> {
 	public String toString() {
 		return "Keyword [id=" + id + ", keyword=" + keyword + ", relationship=" + relationship + "]";
 	}
-	
-	public int count(){
+
+	public int count() {
 		int count = 0;
-		for(char c : keyword.toCharArray()){
-			if(c == '1') count++;
+		for (char c : keyword.toCharArray()) {
+			if (c == '1')
+				count++;
 		}
 		return count;
 	}

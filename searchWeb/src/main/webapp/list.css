@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+
+#lists {
+	background-color: F8F8F8;
+}
+
+#searchDiv{
+	margin: 10px;
+}
+
+#keywords {
+	height: 35px;
+	width: 400px;
+	padding: 10px;
+	border-color: #93E8F9;
+	font-family: arial, sans-serif;
+}
+
+#search {
+	height: 35px;
+	width: 80px;
+	border-color: #93E8F9;
+}
+
+.item{
+	margin:20px;
+}
+
+.itemTitle {
+	font-family: 仿宋;
+	font-size: 20px;
+	font-weight:bold;
+	width: 60%;
+	height: 25px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.itemContent {
+	font-family: 宋体;
+	font-size: 15px;
+	width: 60%;
+	height: 50px;
+	overflow:hidden;
+}

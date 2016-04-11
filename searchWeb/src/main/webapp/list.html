@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>搜索</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./list.css">
+<link rel="stylesheet"
+	href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<script src="//cdn.bootcss.com/jquery/1.11.1-rc2/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<div id="searchDiv">
+		<form class="form-inline" role="form" action="searchView">
+			<div class="form-group">
+				<input type="text" class="form-control" id="keywords"
+					placeholder="请输入关键字" name="keywords"> <input class="hidden"
+					value="1" name="currentNum"></input> <input class="hidden"
+					value="10" name="pageSize"></input>
+			</div>
+			<button type="submit" class="btn btn-primary" id="search">查询</button>
+		</form>
+	</div>
+	<div id="lists">
+		<div class="item">
+			<div class="itemTitle"></div>
+			<div class="itemContent"></div>
+		</div>
+	</div>
+
+	<div id="pages">
+	</div>
+	<script type="text/javascript" src="./list.js"></script>
+</body>
+</html>

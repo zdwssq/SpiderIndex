@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import com.bestsonic.spider.utils.FileUtils;
 /**
  * 根据过滤文件regex-filter.txt来过滤url数组，返回无序列表
- * @author Best_
+ * @author zheng
  */
 public class Filter {
 

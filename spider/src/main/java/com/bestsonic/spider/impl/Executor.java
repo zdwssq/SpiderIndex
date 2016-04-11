@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.bestsonic.spider.Job;
 /**
  * 自定义执行框架，使用内省API
- * @author Best_
+ * @author zheng
  */
 public class Executor {
 	

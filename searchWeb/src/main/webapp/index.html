@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>搜索</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="//cdn.bootcss.com/jquery/1.11.1-rc2/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style type="text/css">
+body {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	background-image: url(img/22169d310d189db2ee0e6a6cacf474ae.jpg)
+}
+
+#keywords {
+	height: 35px;
+	width: 400px;
+	padding: 10px;
+	border-color: #93E8F9;
+	font-family: arial, sans-serif;
+}
+
+#search {
+	height: 35px;
+	width: 80px;
+	border-color: #93E8F9;
+}
+
+ol {
+	margin-left: 30%;
+	margin-right: 20%;
+	text-align: left;
+}
+</style>
+</head>
+<body>
+	<div>
+		<img alt="" src="./img/logo_white_fe6da1ec.png">
+	</div>
+	<div>
+		<form class="form-inline" role="form" action="searchView">
+			<div class="form-group">
+				<input type="text" class="form-control" id="keywords"
+					placeholder="请输入关键字" name="keywords"> <input class="hidden"
+					value="1" name="currentNum"></input> <input class="hidden"
+					value="10" name="pageSize"></input>
+			</div>
+			<button type="submit" class="btn btn-primary" id="search">查询</button>
+		</form>
+	</div>
+	<br>
+	<div>
+		<span style="width: 70%"><b>说明：</b>采用ansj对网页内容进行分词，提取出关键字，分词效果不是很好，可以多搜几个关键字试试，搜索“习近平”、“中央”、“新闻”等效果比较好</span>
+	</div>
+</body>
+</html>

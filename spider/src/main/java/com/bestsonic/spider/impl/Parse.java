@@ -14,7 +14,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 /**
  * 解析工具类，根据Document解析网页中相应的信息
- * @author Best_
+ * @author zheng
  */
 public class Parse{
 	

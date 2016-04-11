@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 网页内容对应的JavaBean
- * @author Best_
+ * @author zheng
  */
 public class WebPage implements Comparable<WebPage>, Serializable{
 
@@ -182,6 +182,7 @@ public class WebPage implements Comparable<WebPage>, Serializable{
 
 	@Override
 	public int compareTo(WebPage o) {
+		System.out.println("分数 = " + this.rank + ", " + o.rank);
 		return this.rank.compareTo(o.getRank());
 	}
 

@@ -5,7 +5,8 @@ import java.util.List;
 
 /**
  * 分页对象
- * @author Best_
+ * 
+ * @author zheng
  * @param <T>
  */
 public final class Page<T> implements Serializable {
@@ -38,11 +39,24 @@ public final class Page<T> implements Serializable {
 	 * 总共页数.
 	 */
 	private int pageCount;
-	
+
 	/**
 	 * 分页数据
 	 */
 	private List<T> pageDatas;
+
+	/**
+	 * 当前查村的关键字
+	 */
+	private String keywords;
+
+	public String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
 
 	public Page() {
 	}
@@ -187,7 +201,7 @@ public final class Page<T> implements Serializable {
 	public void setPageCount(int pageCount) {
 		this.pageCount = pageCount;
 	}
-	
+
 	public List<T> getPageDatas() {
 		return pageDatas;
 	}
@@ -199,8 +213,8 @@ public final class Page<T> implements Serializable {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder("begin=").append(begin).append(", end=").append(end)
-		        .append(", length=").append(length).append(", totalRecords=").append(totalRecords).append(", pageNo=")
-		        .append(pageNo).append(", pageCount=").append(pageCount);
+				.append(", length=").append(length).append(", totalRecords=").append(totalRecords).append(", pageNo=")
+				.append(pageNo).append(", pageCount=").append(pageCount);
 		return builder.toString();
 	}
 }

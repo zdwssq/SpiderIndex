@@ -2,7 +2,7 @@ package com.bestsonic.spider;
 
 /**
  * 任务接口
- * @author Best_
+ * @author zheng
  */
 public interface Job {
 

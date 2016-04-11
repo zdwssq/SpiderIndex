@@ -17,7 +17,7 @@ import com.bestsonic.spider.utils.FileUtils;
 import com.bestsonic.spider.utils.StreamUtils;
 /**
  * 从配置文件injectURL.txt中获取起点Url, 注入数据库中
- * @author Best_
+ * @author zheng
  */
 public class Inject implements Job {
 

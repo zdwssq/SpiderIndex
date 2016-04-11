@@ -16,7 +16,7 @@ import com.bestsonic.spider.utils.StreamUtils;
 
 /**
  * 从数据库中查询出需要Fetch的记录, 生成FetchTask, 交给线程池来执行
- * @author Best_
+ * @author zheng
  */
 public class Fetch implements Job {
 	private final static Logger LOG = Logger.getLogger(Fetch.class);

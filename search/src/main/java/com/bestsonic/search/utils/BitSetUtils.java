@@ -2,6 +2,10 @@ package com.bestsonic.search.utils;
 
 import java.util.BitSet;
 
+/**
+ * 
+ * @author zheng
+ */
 public class BitSetUtils {
 
 	public static BitSet toBitSet(String s, int length) {

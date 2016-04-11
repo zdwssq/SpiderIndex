@@ -20,7 +20,7 @@ import com.bestsonic.spider.utils.DBUtils;
 import com.bestsonic.spider.utils.StreamUtils;
 /**
  * 线程池任务类
- * @author Best_
+ * @author zheng
  */
 public class FetchTask implements Runnable {
 	private final static Logger LOG = Logger.getLogger(Fetch.class);

@@ -8,7 +8,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 /**
  * 线程池静态类
- * @author Best_
+ * @author zheng
  */
 public class ThreadPool {
 
